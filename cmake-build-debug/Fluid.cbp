@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Fluid"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/mdl/hzj5142/Fluid/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/mdl/hzj5142/Fluid/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/mdl/hzj5142/Fluid/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="fluid">
+				<Option output="/home/mdl/hzj5142/Fluid/cmake-build-debug/fluid" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/mdl/hzj5142/Fluid/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/mdl/hzj5142/soft/install4/gcc-7.0.1/lib/gcc/x86_64-pc-linux-gnu/7.0.1/../../../../include/c++/7.0.1"/>
+					<Add directory="/home/mdl/hzj5142/soft/install4/gcc-7.0.1/lib/gcc/x86_64-pc-linux-gnu/7.0.1/../../../../include/c++/7.0.1/x86_64-pc-linux-gnu"/>
+					<Add directory="/home/mdl/hzj5142/soft/install4/gcc-7.0.1/lib/gcc/x86_64-pc-linux-gnu/7.0.1/../../../../include/c++/7.0.1/backward"/>
+					<Add directory="/home/mdl/hzj5142/soft/install4/gcc-7.0.1/lib/gcc/x86_64-pc-linux-gnu/7.0.1/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/home/mdl/hzj5142/soft/install4/gcc-7.0.1/include"/>
+					<Add directory="/home/mdl/hzj5142/soft/install4/gcc-7.0.1/lib/gcc/x86_64-pc-linux-gnu/7.0.1/include-fixed"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 fluid"/>
+					<CompileFile command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="fluid/fast">
+				<Option output="/home/mdl/hzj5142/Fluid/cmake-build-debug/fluid" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/mdl/hzj5142/Fluid/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/mdl/hzj5142/soft/install4/gcc-7.0.1/lib/gcc/x86_64-pc-linux-gnu/7.0.1/../../../../include/c++/7.0.1"/>
+					<Add directory="/home/mdl/hzj5142/soft/install4/gcc-7.0.1/lib/gcc/x86_64-pc-linux-gnu/7.0.1/../../../../include/c++/7.0.1/x86_64-pc-linux-gnu"/>
+					<Add directory="/home/mdl/hzj5142/soft/install4/gcc-7.0.1/lib/gcc/x86_64-pc-linux-gnu/7.0.1/../../../../include/c++/7.0.1/backward"/>
+					<Add directory="/home/mdl/hzj5142/soft/install4/gcc-7.0.1/lib/gcc/x86_64-pc-linux-gnu/7.0.1/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/home/mdl/hzj5142/soft/install4/gcc-7.0.1/include"/>
+					<Add directory="/home/mdl/hzj5142/soft/install4/gcc-7.0.1/lib/gcc/x86_64-pc-linux-gnu/7.0.1/include-fixed"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 fluid/fast"/>
+					<CompileFile command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j40 -f &quot;/home/mdl/hzj5142/Fluid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/bellman_ford.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/bellman_ford.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/bellman_ford_fluid.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/bellman_ford_fluid.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/cnn.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/cnn.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/cnn_fluid.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/cnn_fluid.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/experiments.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/experiments.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/graphcolor.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/graphcolor.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/graphcolor_fluid.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/graphcolor_fluid.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/kmeans.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/kmeans.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/kmeans_fluid.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/kmeans_fluid.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/laplacian.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/laplacian.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/laplacian_fluid.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/laplacian_fluid.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/matrix.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/matrix.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/matrix_fluid.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/medusa.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/medusa.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/medusa_fluid.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/medusa_fluid.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/rgb_image.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/sobel.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/sobel.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/sobel_fluid.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/sobel_fluid.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/sssp.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/sssp.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/sssp_fluid.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/sssp_fluid.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/test_out.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/apps/test_out.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/data.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/data.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/fluid.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/guard.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/guard.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/guardscheduler.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/guardscheduler.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/guardstates.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/guardstates.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/signal.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/syncds.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/tasklet.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/tasklet.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/thread.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/threadpool.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/fluid/valve.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/main.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/utils/logger.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/utils/logger.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/utils/profiler.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/utils/profiler.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/utils/timer.cpp">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/FluidProject/utils/timer.h">
+			<Option target="fluid"/>
+		</Unit>
+		<Unit filename="/home/mdl/hzj5142/Fluid/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

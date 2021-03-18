@@ -1,0 +1,64 @@
+1. main results
+2. for each application
+3. sensitivity
+
+KM
+KM_Fluid
+KM_XS_Fluid
+KM_multi
+KM_multi_Fluid
+
+BF
+./fluid BF bf-g2 50
+BF_Fluid
+./fluid BF_Fluid bf-g2 50
+
+GC
+./fluid GC graph_2 50 1
+GC_Fluid
+./fluid GC_Fluid graph_2 50 1
+
+ED
+./fluid ED out_U373.tif filteredU373.tif 40 50 1 128 1 1
+ED_Fluid
+./fluid ED_Fluid out_U373.tif filteredU373.tif 40 50 1 128 1 1
+ED_multi
+./fluid ED_multi out_U373.tif filteredU373.tif 40 50 1 128 4 1
+ED_multi_Fluid
+./fluid ED_multi_Fluid out_U373.tif filteredU373.tif 40 50 1 128 4 1
+ED_GS
+./fluid ED_GS out_U373.tif filteredU373.tif 40 50 1 128 1 1
+ED_GL
+./fluid ED_GL out_U373.tif filteredU373.tif 40 50 1 128 1 2
+ED_MS
+./fluid ED_MS out_U373.tif filteredU373.tif 40 50 1 128 1 3
+ED_ML
+./fluid ED_ML out_U373.tif filteredU373.tif 40 50 1 128 1 4
+ED_GS_Fluid
+./fluid ED_GS_Fluid out_U373.tif filteredU373.tif 40 50 1 128 1 1
+ED_GL_Fluid
+./fluid ED_GL_Fluid out_U373.tif filteredU373.tif 40 50 1 128 1 2
+ED_MS_Fluid
+./fluid ED_MS_Fluid out_U373.tif filteredU373.tif 40 50 1 128 1 3
+ED_ML_Fluid
+./fluid ED_ML_Fluid out_U373.tif filteredU373.tif 40 50 1 128 1 4
+
+FFT
+FFT_Fluid
+
+DCT
+DCT_Fluid
+
+CNN
+./fluid CNN lenet_input 100 50
+CNN_Fluid
+./fluid CNN_Fluid lenet_input 100 50
+CNN_SqueezeNet
+./fluid CNN_SqueezeNet squeezenet_input 100 50
+CNN_SqueezeNet_Fluid
+./fluid CNN_SqueezeNet_Fluid squeezenet_input 100 50
+
+MD
+./fluid MD medusa_input 100 32 3 64
+MD_Fluid
+./fluid MD_Fluid medusa_input 100 32 3 64

@@ -1,0 +1,240 @@
+#pragma once
+#include <cmath>
+#include <map>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <random>
+#include <mutex>
+#include <cassert>
+#include <vector>
+#include <stdio.h>
+#include "../utils/logger.h"
+#include "../fluid/thread.h"
+#include "../fluid/guard.h"
+#include "../fluid/valve.h"
+#include "../fluid/fluid.h"
+#include "../fluid/guardscheduler.h"
+#include "math.h"
+//http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.302.9543&rep=rep1&type=pdf
+#include <chrono> 
+using namespace std::chrono; 
+#define PI 3.1415926535897931
+#define MAX_COUNT 1200000
+#define STABLE_TH 6
+#define STABLE_DI 1
+namespace example {
+class fftFluidX_E {
+public:
+typedef struct {
+   float real;
+   float imag;
+} Complex;
+double rate;
+int n;
+ValveGT<int> v1;
+void FftFluidX_E(int n)
+{
+   static int* indices;
+   static Complex* x = new Complex;
+   static Complex* f =new Complex;
+    int K = n;
+	indices = (int*)malloc(n * sizeof (int));
+
+   for(int i = 0;i < K ; i++)
+   {
+             x[i].real = i;
+             x[i].imag = 0 ;
+   }
+ 
+        radix2DitCooleyTykeyFft(K, indices, x, f) ;
+free( x);
+free( f);
+free(indices);
+//`:w
+//return 0;
+}
+void radix2DitCooleyTykeyFft(int K, int* indices, Complex* x, Complex* f) 
+{
+
+	calcFftIndices(K, indices) ;
+	int step ;
+	float arg ;
+	int eI ;
+	int oI ;
+
+	float FftSin=0;
+	float FftCos=0;
+
+	Complex t;
+	int i ;
+	int N ;
+	int j ;
+	int k ;
+
+	double dataIn[1];
+	double dataOut[2];
+/////////////////Fluid begins////////////////////
+  	double rate = this->rate;
+	
+	//for(i = 0, N = 2; N <= 2 ; i++, N = 2+i)
+	//{
+	for(i = 0, N = 1 << (i + 1); N <= K ; i++, N = 1 << (i + 1))
+	{
+		for(j = 0 ; j < K ; j += N)
+		{
+/*	auto tf = new TaskFactory();
+	auto gs = new AggressiveGS(10);
+	auto tp0 = tf->newTask<void(*)(void *), void *>("Begin", &nullfun, NULL);
+	auto tp0status = new __fluid__<bool>(tp0->isfinished());
+	auto v0 = new ValveEQ<bool>(tp0status, true);
+
+	tp0->run();
+*/
+			step = N >> 1 ;
+			for(k = 0; k < step ; k++)
+			{//k=0;
+			//	arg = (float)k / N ;
+				eI = j + k ; 
+				oI = j + step + k ;
+
+
+#pragma parrot(input, "fft", [1]dataIn)
+			/*	Data *d1 = new Data;
+				d1->set_data(&arg);
+				Data *d2 = new Data;
+				d2->set_data(&fftSin);
+				Data *d3 = new Data;
+				d3->set_data(&fftSin);
+				Data *d4 = new Data;
+				d4->set_data(&fftCos);
+				Data *d5 = new Data;
+				d5->set_data(&fftCos);
+*/
+				int* anything = new int(0);
+				auto call_num1 = new __fluid__<int>(anything);
+			        auto v2=v1.init(call_num1,rate*100000); 	
+				calcarg(k,N,&arg);
+				fftSin(arg,FftSin);
+				fftCos(arg,FftCos);
+				calcradix(indices,x,f,eI,oI,FftSin,FftCos);
+				//auto tpb__g1 = std::bind(&fftFluidX_E::calcarg, this,k,N , &arg);
+				//auto tp__g1 = tf->newTask<decltype(tpb__g1)>("calcarg" + std::to_string(arg), {}, {}, tpb__g1);
+				//Guard*       g1 = gs->newGuard("calcarg" + std::to_string(arg), {  }, {}, tp__g1, {  });
+//		auto tp0status = new __fluid__<bool>(tp__g1->isfinished());
+//		auto v0 = new ValveEQ<bool>(tp0status, true);
+			
+				
+/*				std::cout<<"arg is ....."<<step<<std::endl;
+				int* any_end= new int(0);
+				auto call_num2= new __fluid__<int>(any_end);
+				auto ve_=v1.init(call_num2,0);
+				auto tpb__g2 = std::bind(&fftFluidX_E::fftSin, this,arg,&fftSin , call_num1->p);
+				auto tp__g2 = tf->newTask<decltype(tpb__g2)>("fftSin" + std::to_string(arg), {}, {}, tpb__g2);
+				Guard*       g2 = gs->newGuard("fftSin" + std::to_string(arg), {  }, {}, tp__g2, {  });
+		g2->set_root();	
+	auto tpb__g3 = std::bind(&fftFluidX_E::fftCos, this,arg,&fftCos , call_num1->p);
+				auto tp__g3 = tf->newTask<decltype(tpb__g3)>("fftCos" + std::to_string(arg), {}, {}, tpb__g3);
+				Guard*       g3 = gs->newGuard("fftCos" + std::to_string(arg), {  }, {}, tp__g3, {  });
+g3->set_root();
+				auto tpb__g4 = std::bind(&fftFluidX_E::calcradix, this,indices, x, f, t, eI, oI,  fftSin, fftCos, call_num2->p);
+				auto tp__g4 = tf->newTask<decltype(tpb__g4)>("calcradix" , {}, {}, tpb__g4);
+				Guard*       g4 = gs->newGuard("calcradix", { v2 }, {ve_}, tp__g4, {  });
+
+				g4->set_leaf();
+				gs->synctask(tp__g2);
+				gs->synctask(tp__g3);
+				gs->synctask(tp__g4);
+				dataIn[0] = arg;
+
+			//	fftSinCos(arg, &fftSin, &fftCos);
+
+				dataOut[0] = fftSin;
+				dataOut[1] = fftCos;
+
+#pragma parrot(output, "fft", [2]<0.0; 2.0>dataOut)
+
+				fftSin = dataOut[0];
+				fftCos = dataOut[1];
+*/
+		
+	                    }				// Non-approximate
+//			gs->sync(tp0);	
+	}
+	}
+
+
+	for (int i = 0 ; i < K ; i++)
+	{
+		f[i] = x[indices[i]] ;
+		std::cout<<"REsults"<<f[i].real << " " << f[i].imag << std::endl;
+	}
+}
+int factorial(int n) 
+{ 
+         return (n==1 || n==0) ? 1: n * factorial(n - 1);  
+    } 
+void fftSin(float x, float &s)
+{
+   float k = -2* PI * x;
+   long int i;
+s=k;
+float t= k;
+   for(i=1;i<=100;i++)  {
+t=(t*(-1)*k*k)/(2*i*(2*i+1));
+s=s+t;
+//	(*call_num)++;
+
+//		std::cout<<"sin is......"<<k<<std::endl;	
+}
+}
+void fftCos(float x, float &c)
+{
+   float k =  PI * x*-2;
+   long int i;
+float t=1;
+c=1;
+   for(i=1;i<=100;i++)  
+{       t=t*(-1)*k*k/(2*i*(2*i-1));
+	c=c+t;
+
+//	(*call_num)++;
+}
+}
+void calcradix(int* indices, Complex* x, Complex* f,int eI,int oI, float fftSin, float fftCos)
+{ //        std::cout<<"sine is ...."<<fftSin<<"......."<<fftCos;
+	Complex t;
+			t =  x[indices[eI]] ;
+				x[indices[eI]].real = t.real + (x[indices[oI]].real * fftCos - x[indices[oI]].imag * fftSin);
+                x[indices[eI]].imag = t.imag + (x[indices[oI]].imag * fftCos + x[indices[oI]].real * fftSin);
+
+                x[indices[oI]].real = t.real - (x[indices[oI]].real * fftCos - x[indices[oI]].imag * fftSin);
+                x[indices[oI]].imag = t.imag - (x[indices[oI]].imag * fftCos + x[indices[oI]].real * fftSin);
+		//*call_num=0;
+
+}  
+void calcarg(int k,int n, float *arg)
+{
+	*arg= (float)k/n;
+}
+void calcFftIndices(int K, int* indices)
+{
+	int i, j ;
+	int N ;
+
+	N = (int)log2f(K) ;
+std::cout<<"N######:"<<N;
+	indices[1 << 0] = 1 << (N - (0 + 1)) ;
+	for (i = 1; i < N; ++i)
+	{
+		for(j = (1 << i) ; j < (1 << (i + 1)); ++j)
+		{
+			indices[j] = indices[j - (1 << i)] + (1 << (N - (i + 1))) ;
+		}
+	}
+}
+};
+
+}
+
+using namespace example;
