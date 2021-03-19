@@ -31,7 +31,7 @@ set(INPUT_FILES
         FluidProject/apps/cnn.cpp FluidProject/apps/cnn.h FluidProject/apps/cnn_fluid.cpp FluidProject/apps/cnn_fluid.h
         FluidProject/apps/medusa.cpp FluidProject/apps/medusa.h FluidProject/apps/medusa_fluid.cpp FluidProject/apps/medusa_fluid.h
         FluidProject/apps/dct.h
-        FluidProject/apps/fourier_fluid.cpp FluidProject/apps/fourier.h
+        FluidProject/apps/fourier.h
         FluidProject/apps/laplacian.cpp FluidProject/apps/laplacian.h FluidProject/apps/laplacian_fluid.cpp FluidProject/apps/laplacian_fluid.h
         FluidProject/apps/rgb_image.h
         FluidProject/apps/test_out.cpp FluidProject/apps/test_out.h
