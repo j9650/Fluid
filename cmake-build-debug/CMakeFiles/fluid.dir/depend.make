@@ -87,23 +87,6 @@ CMakeFiles/fluid.dir/FluidProject/apps/experiments.cpp.o: ../FluidProject/utils/
 CMakeFiles/fluid.dir/FluidProject/apps/experiments.cpp.o: ../FluidProject/utils/profiler.h
 CMakeFiles/fluid.dir/FluidProject/apps/experiments.cpp.o: ../FluidProject/utils/timer.h
 
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/apps/fourier.h
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/apps/fourier_fluid.cpp
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/apps/kmeans.h
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/fluid/data.h
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/fluid/fluid.h
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/fluid/guard.h
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/fluid/guardscheduler.h
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/fluid/guardstates.h
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/fluid/signal.h
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/fluid/syncds.h
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/fluid/tasklet.h
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/fluid/thread.h
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/fluid/valve.h
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/utils/logger.h
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/utils/profiler.h
-CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o: ../FluidProject/utils/timer.h
-
 CMakeFiles/fluid.dir/FluidProject/apps/graphcolor.cpp.o: ../FluidProject/apps/graphcolor.cpp
 CMakeFiles/fluid.dir/FluidProject/apps/graphcolor.cpp.o: ../FluidProject/apps/graphcolor.h
 CMakeFiles/fluid.dir/FluidProject/apps/graphcolor.cpp.o: ../FluidProject/apps/kmeans.h

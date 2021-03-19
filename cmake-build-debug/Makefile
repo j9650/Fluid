@@ -258,33 +258,6 @@ FluidProject/apps/experiments.cpp.s:
 	$(MAKE) -f CMakeFiles/fluid.dir/build.make CMakeFiles/fluid.dir/FluidProject/apps/experiments.cpp.s
 .PHONY : FluidProject/apps/experiments.cpp.s
 
-FluidProject/apps/fourier_fluid.o: FluidProject/apps/fourier_fluid.cpp.o
-
-.PHONY : FluidProject/apps/fourier_fluid.o
-
-# target to build an object file
-FluidProject/apps/fourier_fluid.cpp.o:
-	$(MAKE) -f CMakeFiles/fluid.dir/build.make CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o
-.PHONY : FluidProject/apps/fourier_fluid.cpp.o
-
-FluidProject/apps/fourier_fluid.i: FluidProject/apps/fourier_fluid.cpp.i
-
-.PHONY : FluidProject/apps/fourier_fluid.i
-
-# target to preprocess a source file
-FluidProject/apps/fourier_fluid.cpp.i:
-	$(MAKE) -f CMakeFiles/fluid.dir/build.make CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.i
-.PHONY : FluidProject/apps/fourier_fluid.cpp.i
-
-FluidProject/apps/fourier_fluid.s: FluidProject/apps/fourier_fluid.cpp.s
-
-.PHONY : FluidProject/apps/fourier_fluid.s
-
-# target to generate assembly for a file
-FluidProject/apps/fourier_fluid.cpp.s:
-	$(MAKE) -f CMakeFiles/fluid.dir/build.make CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.s
-.PHONY : FluidProject/apps/fourier_fluid.cpp.s
-
 FluidProject/apps/graphcolor.o: FluidProject/apps/graphcolor.cpp.o
 
 .PHONY : FluidProject/apps/graphcolor.o
@@ -930,9 +903,6 @@ help:
 	@echo "... FluidProject/apps/experiments.o"
 	@echo "... FluidProject/apps/experiments.i"
 	@echo "... FluidProject/apps/experiments.s"
-	@echo "... FluidProject/apps/fourier_fluid.o"
-	@echo "... FluidProject/apps/fourier_fluid.i"
-	@echo "... FluidProject/apps/fourier_fluid.s"
 	@echo "... FluidProject/apps/graphcolor.o"
 	@echo "... FluidProject/apps/graphcolor.i"
 	@echo "... FluidProject/apps/graphcolor.s"
