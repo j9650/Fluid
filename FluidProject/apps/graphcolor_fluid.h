@@ -21,4 +21,12 @@ namespace example {
 		virtual void Docolor(GraphGC *graph, int iter, int *tt, int *call_num);
 	};
 	
+	class GraphcolorFluidX_E_multi : public GraphcolorFluidX_E {
+	public:
+		GraphcolorFluidX_E_multi(int thread_num_) {
+			this->thread_num = thread_num_;
+		}
+		//virtual void ShortestPath(GraphGC *graph);
+		virtual void Kernel(GraphGC *graph, int iter, int *call_num);
+	};
 };

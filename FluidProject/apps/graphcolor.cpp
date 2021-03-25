@@ -27,7 +27,6 @@ int Graphcolor::graphcolor(std::string in) {
 	InitGraph(&graph,in);
 
   Randomcolor(&graph);
-	//ShortestPath(&graph);
 	Coloring(&graph);
 
   Checkcolor(&graph);
@@ -58,18 +57,10 @@ void Graphcolor::Checkcolor(GraphGC *graph)
     while(graph->vertex[x+1] <= i) x++;
     y = graph->edge[i];
     if(graph->color[x].color == graph->color[y].color)
-      //if(graph->color[x].color == 11) 
       std::cout << "error! color[" << x << "] == color[" << y << "] == " << graph->color[x].color << std::endl;
   }
   std::cout << "result correct!\n";
 
-  //FILE *fp = fopen("sha.txt", "w");
-  //for(int i=0; i<graph->v_num; i++)
-  //{
-  //  fprintf(fp, "%d, %d, %d, %d\n", i, graph->color[i].color, graph->ga[i], graph->randlist[i]);
-  //  //std::cout << graph->color[i].color << ", " << graph->ga[i] << std::endl;
-  //}
-  //fclose(fp);
 }
 
 void Graphcolor::InitGraph(GraphGC *graph, std::string in)
@@ -100,21 +91,15 @@ void Graphcolor::InitGraph(GraphGC *graph, std::string in)
   	for (int i=0; i< graph->v_num; i++)
   	{
   		std::getline(file, st);
-  		//file >> st;
-  		//std::cout << i << " \"" << st << '\"' << std::endl;
-  		//std::cout << i << " \"";
   		ss.clear();
   		ss.str("");
   		ss << st;
   		int e;
   		while(ss >> e)
   		{
-  			//ss >> graph->edge[tot++];
   			graph->edge[tot++] = e;
-  			//std::cout << graph->edge[tot-1] << ' ' ;
   		}
   		graph->vertex[i+1] = tot;
-  		//std::cout << "\"" << std::endl;
   	}
   	std::cout << "tot: " << tot << std::endl;
 
@@ -146,30 +131,14 @@ void Graphcolor::huafen(GraphGC *graph, int vid, int iter)
 {
   int found_larger=0;
   int local_rand = graph->randlist[vid];
-  //if(iter == 2 && vid == 2932)
-  //  std::cout << "iter =====2 " << vid << std::endl;
   for(int i=graph->vertex[vid]; i<graph->vertex[vid+1]; i++) {
     int dest = graph->edge[i];
     if((graph->color[dest].color && graph->ga[dest] < iter)||(graph->ga[dest] < iter && graph->ga[dest])) continue;
-    if((graph->randlist[dest]>local_rand) || (graph->randlist[dest]==local_rand && dest<vid)) found_larger = 1; //if(iter == 2 && vid == 2932) std::cout << "dest: " << dest <<std::endl;}
-    //if(iter==11) std::cout << dest << ' ' << graph->randlist[dest] << ' ' << vid << ' ' << local_rand << std::endl;
+    if((graph->randlist[dest]>local_rand) || (graph->randlist[dest]==local_rand && dest<vid)) found_larger = 1; 
   }
-  //if(found_larger) return;
-  //std::cout << vid << " zhaodaoyige! " << iter <<"\n";
-  //if(iter == 2 && vid == 2932)
-  //  std::cout << "iter =====2 " << vid << std::endl;
   if(!found_larger)
   {
     if(graph->ga[vid] == 0)  graph->ga[vid] = iter;
-  }
-  else
-  {
-    //if(iter == 2 && vid == 2932)
-    //{
-    //  FILE *fp = fopen("caonima.txt","w");
-    //  fprintf(fp, "%d\n", vid);
-    //  fclose(fp);
-    //}
   }
 }
 
@@ -178,14 +147,12 @@ void Graphcolor::Kernel(GraphGC *graph, int iter)
   if(iter%2 != 0)
   {
     for(int i=0; i<graph->v_num; i++) {
-      //if(graph->color[i].color == 0)
       huafen(graph, i, iter);
     }
   }
   else
   {
     for(int i=graph->v_num-1; i>=0; i--) {
-      //if(graph->color[i].color == 0)
       huafen(graph, i, iter);
     }
   }
@@ -193,12 +160,9 @@ void Graphcolor::Kernel(GraphGC *graph, int iter)
 
 void Graphcolor::Docolor(GraphGC *graph, int iter, int *tt)
 {
-  //int tot = 0;
-  //for(int t=0; t<10; t++)
   for(int i=0; i<graph->v_num; i++) {
     if(graph->ga[i] && graph->color[i].color == 0)
     {
-      //if(i == 3999 || i == 466) std::cout <<  i << ":" << iter << ":" << graph->ga[i] << std::endl;
       graph->color[i].color = graph->ga[i];
       (*tt)--;
     }
@@ -211,25 +175,36 @@ void GraphcolorFluid::Kernel(GraphGC *graph, int iter, int *call_num)
   if(iter%2 != 100)
   {
     for(int i=0; i<graph->v_num; i++) {
-      //if(graph->color[i].color == 0)
       huafen(graph, i, iter),
       (*call_num)++;
-      //print_to_logs(graph,"call_num: ");
-      //std::cout << "call_num: " << (*call_num) << std::endl;
     }
   }
   else
   {
     for(int i=graph->v_num-1; i>=0; i--) {
-      //if(graph->color[i].color == 0)
       huafen(graph, i, iter),
       (*call_num)++;
-      //print_to_logs(graph,"call_num: ");
-      //std::cout << "call_num: " << (*call_num) << std::endl;
     }
   }
-  //std::cout << "Kernel wan le!\n";
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////multi-thread///////////////////////////////////////////////////////
+
+
+void Graphcolor_multi::Kernel(GraphGC *graph, int iter, int *call_num)
+{
+  if(iter%2 != 100)
+  {
+    for(int i=0; i<graph->v_num; i++) {
+      huafen(graph, i, iter),
+    }
+  }
+  else
+  {
+    for(int i=graph->v_num-1; i>=0; i--) {
+      huafen(graph, i, iter),
+    }
+  }
+}
+

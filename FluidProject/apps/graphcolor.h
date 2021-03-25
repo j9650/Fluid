@@ -45,6 +45,7 @@ namespace example {
 	public:
 		static std::string loopindicator;
 		double rate;
+		int thread_num;
 		double sum;
 		int end_quality;
 
@@ -64,7 +65,13 @@ namespace example {
 		GraphcolorFluid() {
 					
 		}
-		//virtual void ShortestPath(GraphGC *graph);
+		virtual void Kernel(GraphGC *graph, int iter, int *call_num);
+	};
+	class Graphcolor_multi : public Graphcolor {
+	public:
+		Graphcolor_multi(int thread_num_) {
+			this->thread_num = thread_num_;
+		}
 		virtual void Kernel(GraphGC *graph, int iter, int *call_num);
 	};
 }
