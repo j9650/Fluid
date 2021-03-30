@@ -19,6 +19,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/fluid.dir/FluidProject/apps/cnn_fluid.cpp.o"
   "CMakeFiles/fluid.dir/FluidProject/apps/medusa.cpp.o"
   "CMakeFiles/fluid.dir/FluidProject/apps/medusa_fluid.cpp.o"
+  "CMakeFiles/fluid.dir/FluidProject/apps/fourier_fluid.cpp.o"
   "CMakeFiles/fluid.dir/FluidProject/apps/laplacian.cpp.o"
   "CMakeFiles/fluid.dir/FluidProject/apps/laplacian_fluid.cpp.o"
   "CMakeFiles/fluid.dir/FluidProject/apps/test_out.cpp.o"

@@ -72,6 +72,6 @@ namespace example {
 		Graphcolor_multi(int thread_num_) {
 			this->thread_num = thread_num_;
 		}
-		virtual void Kernel(GraphGC *graph, int iter, int *call_num);
+		virtual void Kernel(GraphGC *graph, int iter);
 	};
 }

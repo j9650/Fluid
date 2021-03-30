@@ -148,6 +148,23 @@ void CNN::load_image_lenet(std::string image_filename, double* pixels) {
   //std::cout << "CNN::load_image_lenet " << *pixels << std::endl;
 }
 
+void CNN::load_image_imagenet(std::string image_filename, double* pixels) {
+  // load image
+  std::cout << "CNN::load_image_imagenet " << image_filename << std::endl;
+  std::ifstream image_file;
+  image_file.open(image_filename, std::ifstream::in);
+  //std::cout << "33n: " << 0 << " oc: " << input_channel << " space: " << input_height*input_width << std::endl;
+  for (int c = 0; c < input_channel; c++) {
+    for (int h = 0; h < input_height; h++) {
+      for (int w = 0; w < input_width; w++) {
+        image_file >> pixels[((c * input_height) + h) * input_width + w];
+        //std::cout << pixels[((c * input_height) + h) * input_width + w]; // << std::endl;
+      }
+    }
+  }
+  //std::cout << "CNN::load_image_lenet " << *pixels << std::endl;
+}
+
 void CNN::load_weights_mnist(std::string weight_filename) {
   std::cout << "CNN::load_weights\n";
   std::ifstream weight_file;
@@ -259,58 +276,6 @@ void CNN::load_weights(std::string weight_filename) {
   }
 
 }
-/*
-int CNN::inference() {
-
-  // structure of CNN:
-  conv2d_layer1->convolution();
-  relu_layer(conv2d_1, activation_1);
-  conv2d_layer2->convolution();
-  relu_layer(conv2d_2, activation_2);
-  maxpool_layer(activation_2, max_pooling2d_1, 2, 2);
-  conv2d_layer3->convolution();
-  relu_layer(conv2d_3, activation_3);
-  conv2d_layer4->convolution();
-  relu_layer(conv2d_4, activation_4);
-  maxpool_layer(activation_4, max_pooling2d_2, 2, 2);
-  flatten(max_pooling2d_2, flatten_);
-  //for (int i = 0; i < flatten_->size; i++) {
-  //  std::cout << flatten_->pixels[i] << std::endl;
-  //}
-  dense_layer(flatten_, dense_1, dense_weights1);
-  //for (int i = 0; i < dense_1->size; i++) {
-  //  std::cout << dense_1->pixels[i] << std::endl;
-  //}
-  //std::cout << "====================================================" << std::endl;
-  relu_layer(dense_1, activation_5);
-  //for (int i = 0; i < activation_5->size; i++) {
-  //  std::cout << activation_5->pixels[i] << std::endl;
-  //}
-  //std::cout << "====================================================" << std::endl;
-  dense_layer(activation_5, dense_2, dense_weights2);
-  //for (int i = 0; i < dense_2->size; i++) {
-  //  std::cout << dense_2->pixels[i] << std::endl;
-  //}
-  //std::cout << "====================================================" << std::endl;
-
-
-  softmax_layer(dense_2, activation_6);
-
-  //for (int i = 0; i < activation_6->size; i++) {
-  //  std::cout << activation_6->pixels[i] << std::endl;
-  //}
-
-  double max = 0.0;
-  int catogary;
-  for(int i = 0; i < activation_6->size; i++) {
-    if (activation_6->pixels[i] > max) {
-      max = activation_6->pixels[i];
-      catogary = i;
-    }
-  }
-
-  return catogary;
-}*/
 
 std::vector<int> CNN::inference() {
 
@@ -605,6 +570,8 @@ void CNN::convolution_layer(feature_map* input, feature_map* output, weights* co
   double *intput_feature = input->pixels;
   double *weight = conv_weights->pixels;  // oc, ic, kh, kw
   //int pad = conv_weights->h / 2;
+  int padh = conv_weights->h / 2;
+  int padw = conv_weights->w / 2;
   for (int occ = 0; occ < oc; occ++) {
     for (int nn = 0; nn < n; nn++) {
       intput_feature = &(input->pixels[nn * input->size]);
@@ -620,14 +587,31 @@ void CNN::convolution_layer(feature_map* input, feature_map* output, weights* co
 
           int w_i = 0;
           for (int icc = 0; icc < ic; icc++) {
-            for (int kh = 0; kh < conv_weights->h; kh++) {
-              for (int kw = 0; kw < conv_weights->w; kw++) {
-                (*output_feature) += intput_feature[(icc * ih + ohh + kh) * iw + oww + kw] * weight[w_i++];
-                //assert(&(intput_feature[(icc * ih + ohh + kh) * iw + oww + kw]) < &(input->pixels[input->n * input->size]));
-                //assert(&weight[w_i-1] < &(conv_weights->pixels[conv_weights->size]));
+            if (!pad) {
+              for (int kh = 0; kh < conv_weights->h; kh++) {
+                for (int kw = 0; kw < conv_weights->w; kw++) {
+                  (*output_feature) += intput_feature[(icc * ih + ohh + kh) * iw + oww + kw] * weight[w_i++];
+                  //assert(&(intput_feature[(icc * ih + ohh + kh) * iw + oww + kw]) < &(input->pixels[input->n * input->size]));
+                  //assert(&weight[w_i-1] < &(conv_weights->pixels[conv_weights->size]));
+                }
+              }
+            } else {
+              for (int kh = -padh; kh <= padh; kh++) {
+                if (kh + ohh < 0 || kh + ohh >= ih) {
+                  continue;
+                }
+                for (int kw = -padw; kw <= padw; kw++) {
+                  if (kw + oww < 0 || kw + oww >= iw) {
+                    continue;
+                  }
+                  (*output_feature) += intput_feature[(icc * ih + ohh + kh) * iw + oww + kw] * weight[w_i++];
+                  //assert(&(intput_feature[(icc * ih + ohh + kh) * iw + oww + kw]) < &(input->pixels[input->n * input->size]));
+                  //assert(&weight[w_i-1] < &(conv_weights->pixels[conv_weights->size]));
+                }
               }
             }
           }
+          (*output_feature) = ((*output_feature) < 0 && relu) ? 0 : (*output_feature);
         }
       }
     }
@@ -989,6 +973,267 @@ void CNN_lenet::load_weights_lenet(std::string weight_filename) {
 
 }
 
+//========================vggnet start here======================================
+void CNN_vggnet::cnn(std::string input_path, std::string in) {
+  std::cout << "CNN_vggnet::cnn\n";
+  vggnet(input_height, input_width, input_channel, batch_size); // 1
+
+  std::ifstream input_file;
+  input_file.open(input_path + in, std::ifstream::in);
+
+  std::string weight_filename;
+  input_file >> weight_filename;
+  ////load_weights(input_path + weight_filename);
+  load_weights_vggnet(input_path + weight_filename); // 2
+
+  //std::cout << "1n: " << conv2d_1_e1->n << " oc: " << conv2d_1_e1->c << " space: " << conv2d_1_e1->h*conv2d_1_e1->w << std::endl;
+
+  std::cout << "succ loaded weights\n";
+
+  input_file >> num_images;
+  //file >> image->w;
+  input_file >> input_height;
+  input_file >> input_width;
+  input_file >> input_channel;
+
+  std::string image_filename;
+  int label;
+  std::vector<int> predict;
+  //predicts.resize()
+
+  // inference the images one by one
+  double* pixels;
+  //std::cout << "2n: " << conv2d_1_e1->n << " oc: " << conv2d_1_e1->c << " space: " << conv2d_1_e1->h*conv2d_1_e1->w << std::endl;
+  for (int i = 0; i * batch_size < num_images; i++) {
+    pixels = input->pixels;
+    for (int j = 0; j + i < num_images && j < batch_size; j++) {
+      input_file >> image_filename;
+      input_file >> label;
+      labels.push_back(label);
+  
+      load_image_imagenet(input_path + image_filename, pixels); // 3
+      //std::cout << input_path << std::endl;
+      //std::cout << image_filename << std::endl;
+  
+      std::cout << "loaded image: " << input_path + image_filename << ' ' << label << std::endl;
+      pixels += input->size;
+    }
+
+    predict = inference(); // 4
+    //std::cout << "predicted: " << predict << std::endl;
+    //predicts.push_back(predict);
+    predicts.insert(predicts.end(), predict.begin(), predict.end());
+    //if (i>10) break;
+    break;
+  }
+
+  //test_result();
+}
+
+void CNN_vggnet::vggnet(int h_, int w_, int c_, int batch_size_) {
+  printf("CNN_vggnet::vggnet\n");
+  int h = h_;
+  int w = w_;
+  int c = c_;
+  int n = batch_size_;
+  std::cout << "n: " << n << " oc: " << c << " space: " << h*w << std::endl;
+
+  input = new feature_map(h, w, c, n);
+  c = 64;
+  conv2d_0 = new feature_map(h, w, c, n);
+  conv2d_1 = new feature_map(h, w, c, n);
+  h=h/2; w=w/2;
+  max_pooling2d_0 = new feature_map(h, w, c, n);
+
+  c = 128;
+  conv2d_2 = new feature_map(h, w, c, n);
+  conv2d_3 = new feature_map(h, w, c, n);
+  h=h/2; w=w/2;
+  max_pooling2d_1 = new feature_map(h, w, c, n);
+
+  c = 256;
+  conv2d_4 = new feature_map(h, w, c, n);
+  conv2d_5 = new feature_map(h, w, c, n);
+  conv2d_6 = new feature_map(h, w, c, n);
+  h=h/2; w=w/2;
+  max_pooling2d_2 = new feature_map(h, w, c, n);
+
+  c = 512;
+  conv2d_7 = new feature_map(h, w, c, n);
+  conv2d_8 = new feature_map(h, w, c, n);
+  conv2d_9 = new feature_map(h, w, c, n);
+  h=h/2; w=w/2;
+  max_pooling2d_3 = new feature_map(h, w, c, n);
+  conv2d_10 = new feature_map(h, w, c, n);
+  conv2d_11 = new feature_map(h, w, c, n);
+  conv2d_12 = new feature_map(h, w, c, n);
+  h=h/2; w=w/2;
+  max_pooling2d_4 = new feature_map(h, w, c, n);
+
+  c = h * w * c;
+  h = 1; w = 1;
+  flatten_ = new feature_map(h, w, c, n);
+  dense_weights1 = new weights(1, 1, c, 4096);
+  c = 4096;
+  dense_1 = new feature_map(h, w, c, n);
+  activation_1 = new feature_map(h, w, c, n);
+  dense_weights2 = new weights(1, 1, c, 4096);
+  c = 4096;
+  dense_2 = new feature_map(h, w, c, n);
+  activation_2 = new feature_map(h, w, c, n);
+  dense_weights3 = new weights(1, 1, c, 2);
+  c = 2;
+  dense_3 = new feature_map(h, w, c, n);
+  activation_3 = new feature_map(h, w, c, n);
+
+  // conv_layer weights:
+  conv_weights0 = new weights(3, 3, 3, 64);
+  conv_weights1 = new weights(3, 3, 64, 64);
+  conv_weights2 = new weights(3, 3, 64, 128);
+  conv_weights3 = new weights(3, 3, 128, 128);
+  conv_weights4 = new weights(3, 3, 128, 256);
+  conv_weights5 = new weights(3, 3, 256, 256);
+  conv_weights6 = new weights(3, 3, 256, 256);
+  conv_weights7 = new weights(3, 3, 256, 512);
+  conv_weights8 = new weights(3, 3, 512, 512);
+  conv_weights9 = new weights(3, 3, 512, 512);
+  conv_weights10 = new weights(3, 3, 512, 512);
+  conv_weights11 = new weights(3, 3, 512, 512);
+  conv_weights12 = new weights(3, 3, 512, 512);
+  all_weights_list.push_back(conv_weights0);
+  all_weights_list.push_back(conv_weights1);
+  all_weights_list.push_back(conv_weights2);
+  all_weights_list.push_back(conv_weights3);
+  all_weights_list.push_back(conv_weights4);
+  all_weights_list.push_back(conv_weights5);
+  all_weights_list.push_back(conv_weights6);
+  all_weights_list.push_back(conv_weights7);
+  all_weights_list.push_back(conv_weights8);
+  all_weights_list.push_back(conv_weights9);
+  all_weights_list.push_back(conv_weights10);
+  all_weights_list.push_back(conv_weights11);
+  all_weights_list.push_back(conv_weights12);
+  all_weights_list.push_back(dense_weights1);
+  all_weights_list.push_back(dense_weights2);
+  all_weights_list.push_back(dense_weights3);
+  all_weights_name.push_back("conv_weights0");
+  all_weights_name.push_back("conv_weights1");
+  all_weights_name.push_back("conv_weights2");
+  all_weights_name.push_back("conv_weights3");
+  all_weights_name.push_back("conv_weights4");
+  all_weights_name.push_back("conv_weights5");
+  all_weights_name.push_back("conv_weights6");
+  all_weights_name.push_back("conv_weights7");
+  all_weights_name.push_back("conv_weights8");
+  all_weights_name.push_back("conv_weights9");
+  all_weights_name.push_back("conv_weights10");
+  all_weights_name.push_back("conv_weights11");
+  all_weights_name.push_back("conv_weights12");
+  all_weights_name.push_back("dense_weights1");
+  all_weights_name.push_back("dense_weights2");
+  all_weights_name.push_back("dense_weights3");
+}
+
+
+std::vector<int> CNN_vggnet::inference() {
+
+  std::cout << "CNN_vggnet::inference" << std::endl;
+  std::cout << "n: " << conv2d_0->n << " oc: " << conv2d_0->c << " space: " << conv2d_0->h*conv2d_0->w << std::endl;
+  int *iiiii=new int(0);
+  //flatten(input, flatten_);
+  int tot = 0;
+  convolution_layer(input, conv2d_0, all_weights_list[tot++]);
+  convolution_layer(conv2d_0, conv2d_1, all_weights_list[tot++]);
+  maxpool_layer(conv2d_1, max_pooling2d_0, 2, 2);
+
+  convolution_layer(max_pooling2d_0, conv2d_2, all_weights_list[tot++]);
+  convolution_layer(conv2d_2, conv2d_3, all_weights_list[tot++]);
+  maxpool_layer(conv2d_3, max_pooling2d_1, 2, 2);
+
+  convolution_layer(max_pooling2d_1, conv2d_4, all_weights_list[tot++]);
+  convolution_layer(conv2d_4, conv2d_5, all_weights_list[tot++]);
+  convolution_layer(conv2d_5, conv2d_6, all_weights_list[tot++]);
+  maxpool_layer(conv2d_6, max_pooling2d_2, 2, 2);
+
+  convolution_layer(max_pooling2d_2, conv2d_7, all_weights_list[tot++]);
+  convolution_layer(conv2d_7, conv2d_8, all_weights_list[tot++]);
+  convolution_layer(conv2d_8, conv2d_9, all_weights_list[tot++]);
+  maxpool_layer(conv2d_9, max_pooling2d_3, 2, 2);
+
+  convolution_layer(max_pooling2d_3, conv2d_10, all_weights_list[tot++]);
+  convolution_layer(conv2d_10, conv2d_11, all_weights_list[tot++]);
+  convolution_layer(conv2d_11, conv2d_12, all_weights_list[tot++]);
+  maxpool_layer(conv2d_12, max_pooling2d_4, 2, 2);
+
+  std::cout << "====================================================" << std::endl;
+
+  iiiii=new int(0);
+
+  flatten(max_pooling2d_4, flatten_);
+  std::cout << "====================================================" << std::endl;
+  dense_layer(flatten_, dense_1, all_weights_list[tot++], iiiii);
+  relu_layer(dense_1, activation_1);
+  //for (int i = 0; i < dense_2->size; i++) {
+  //  std::cout << dense_2->pixels[i] << std::endl;
+  //}
+  std::cout << "====================================================" << std::endl;
+  dense_layer(activation_1, dense_2, all_weights_list[tot++], iiiii);
+  relu_layer(dense_2, activation_2);
+
+
+  dense_layer(activation_2, dense_3, all_weights_list[tot++], iiiii);
+  softmax_layer(dense_3, activation_3);
+
+  //for (int i = 0; i < activation_6->size; i++) {
+  //  std::cout << activation_6->pixels[i] << std::endl;
+  //}
+
+  double max;
+  int catogary_res;
+  std::vector<int> catogary;
+  double* activation_3_pixels = activation_3->pixels;
+  for (int n = 0; n < activation_3->n; n++) {
+    max = 0.0;
+    for(int i = 0; i < activation_3->size; i++) {
+      //std::cout << *activation_6_pixels << std::endl;
+      if (*activation_3_pixels > max) {
+        max = *activation_3_pixels;
+        catogary_res = i;
+      }
+      activation_3_pixels++;
+    }
+    //printf("%d\n", catogary_res);
+    catogary.push_back(catogary_res);
+  }
+
+  return catogary;
+}
+
+void CNN_vggnet::load_weights_vggnet(std::string weight_filename) {
+  std::cout << "CNN_vggnet::load_weights_vggnet " << weight_filename << std::endl;
+  std::ifstream weight_file;
+  weight_file.open(weight_filename, std::ifstream::in);
+
+  int ic = 1;
+  int oc = 256;
+  int kw = 1;
+  int kh = 1;
+
+  for (int i = 0; i < all_weights_list.size(); i++) {
+    double *weights = all_weights_list[i]->pixels;
+    double *bias = all_weights_list[i]->bias;
+    ic = all_weights_list[i]->ic; oc = all_weights_list[i]->oc;
+    kw = all_weights_list[i]->w; kh = all_weights_list[i]->h;
+    for (int i = 0; i < ic*oc*kw*kh; i++) {
+      weight_file >> weights[i];
+    }
+    for (int i = 0; i < oc; i++) {
+      weight_file >> bias[i];
+    }
+  
+    std::cout << "CNN_vggnet::load_weights_vggnet: " << all_weights_name[i] << std::endl;
+  }
+}
 
 //=======================squeezenet start here===================================
 void CNN_squeezenet::cnn(std::string input_path, std::string in) {
@@ -1346,7 +1591,6 @@ void CNN::dense_layer_E(feature_map* input, feature_map* output, weights* dense_
   std::cout << "dense weights: " << std::endl;
   //gettimeofday(&t1, 0);
   //long elapsed = (t1.tv_sec-t0.tv_sec)*1000000 + t1.tv_usec-t0.tv_usec;
-  std::cout << "CNN::dense_layer_E end " << std::endl;
 
   double *weights = dense_weights->pixels;
   double *input_feature = input->pixels;
@@ -1367,6 +1611,7 @@ void CNN::dense_layer_E(feature_map* input, feature_map* output, weights* dense_
     }
   }
   //print_feature(output, "dense_layer_E");
+  std::cout << "CNN::dense_layer_E end " << std::endl;
 }
 
 
@@ -1407,6 +1652,8 @@ void CNN::convolution_layer_E(feature_map* input, feature_map* output, weights* 
   double *weight = conv_weights->pixels;  // oc, ic, kh, kw occ
   //int pad = conv_weights->h / 2;
   //for (int occ = 0; occ < oc; occ++) {
+  int padh = conv_weights->h / 2;
+  int padw = conv_weights->w / 2;
   for ((*iiiii) = 0; (*iiiii) < oc; (*iiiii)++) {
     //printf("%d\n", (*iiiii));
     for (int nn = 0; nn < n; nn++) {
@@ -1423,14 +1670,31 @@ void CNN::convolution_layer_E(feature_map* input, feature_map* output, weights* 
 
           int w_i = 0;
           for (int icc = 0; icc < ic; icc++) {
-            for (int kh = 0; kh < conv_weights->h; kh++) {
-              for (int kw = 0; kw < conv_weights->w; kw++) {
-                (*output_feature) += intput_feature[(icc * ih + ohh + kh) * iw + oww + kw] * weight[w_i++] * scale;
-                //assert(&(intput_feature[(icc * ih + ohh + kh) * iw + oww + kw]) < &(input->pixels[input->n * input->size]));
-                //assert(&weight[w_i-1] < &(conv_weights->pixels[conv_weights->size]));
+            if (!pad) {
+              for (int kh = 0; kh < conv_weights->h; kh++) {
+                for (int kw = 0; kw < conv_weights->w; kw++) {
+                  (*output_feature) += intput_feature[(icc * ih + ohh + kh) * iw + oww + kw] * weight[w_i++] * scale;
+                  //assert(&(intput_feature[(icc * ih + ohh + kh) * iw + oww + kw]) < &(input->pixels[input->n * input->size]));
+                  //assert(&weight[w_i-1] < &(conv_weights->pixels[conv_weights->size]));
+                }
+              }
+            } else {
+              for (int kh = -padh; kh <= padh; kh++) {
+                if (kh + ohh < 0 || kh + ohh >= ih) {
+                  continue;
+                }
+                for (int kw = -padw; kw <= padw; kw++) {
+                  if (kw + oww < 0 || kw + oww >= iw) {
+                    continue;
+                  }
+                  (*output_feature) += intput_feature[(icc * ih + ohh + kh) * iw + oww + kw] * weight[w_i++] * scale;
+                  //assert(&(intput_feature[(icc * ih + ohh + kh) * iw + oww + kw]) < &(input->pixels[input->n * input->size]));
+                  //assert(&weight[w_i-1] < &(conv_weights->pixels[conv_weights->size]));
+                }
               }
             }
           }
+          (*output_feature) = ((*output_feature) < 0 && relu) ? 0 : (*output_feature);
         }
       }
     }

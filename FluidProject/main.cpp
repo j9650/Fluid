@@ -94,6 +94,7 @@ int main(int argc, char** argv) {
 		auto me = new GraphcolorExperiments(inputfilename);
 		me->rate = (atoi(argv[3])/100.0);
 		me->end_quality = atoi(argv[4]);
+		me->threads_num = atoi(argv[5]);
 		me->cmd = cmd;
 		me -> experiment();
 	} else if (app == "SB") {
@@ -151,6 +152,9 @@ int main(int argc, char** argv) {
 		auto me = new FFTExperiments();
 		me->f1 = atoi(argv[2]);
 		me->rate = (atoi(argv[3])/100.0);
+		me->threads_num = atoi(argv[4]);
+		me->cmd = cmd;
+		me -> experiment();
 	} else if (app == "DC") {
 		std::cout << "DCT" << std::endl;
 		auto me = new DCTExperiments();
@@ -158,6 +162,8 @@ int main(int argc, char** argv) {
 		me->columns = atoi(argv[3]);
 		me->pixel = atoi(argv[4]);
 		me->rate = (atoi(argv[5])/100.0);
+		me->cmd = cmd;
+		me -> experiment();
 	} else {
 		std::cout << "Invalid app" << std::endl;
 	}

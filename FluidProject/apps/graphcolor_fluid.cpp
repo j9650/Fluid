@@ -84,7 +84,7 @@ void GraphcolorFluidX_E::Coloring(GraphGC *graph)
 		auto tp__g1 = tf->newTask<decltype(tpb__g1), int*>("Kernel" + std::to_string(iter), {d1}, {d2}, tpb__g1, call_num->p);
 		Guard* g1 = gs->newGuard("GuardKernel" + std::to_string(iter), {}, {}, tp__g1, {});
 		g1->set_root();
-		guard_log.push_back(g1);
+		//guard_log.push_back(g1);
 
 		//#pragma call_num {__call_num__ call_num2;}
 		int* call_num2 = new int(0);
@@ -97,16 +97,16 @@ void GraphcolorFluidX_E::Coloring(GraphGC *graph)
 		auto v1_ = v1.init(anything_call_num2, end_quality);
 		auto tpb__g2 = std::bind(&GraphcolorFluidX_E::Docolor, this, graph, iter, &tt, call_num2);
 		auto tp__g2 = tf->newTask<decltype(tpb__g2)>("Docolor" + std::to_string(iter), {d2}, {d3}, tpb__g2);
-		Guard*       g2 = gs->newGuard("Docolor" + std::to_string(iter), { v0 }, {v1_}, tp__g2, {  });
+		Guard*       g2 = gs->newGuard("Docolor" + std::to_string(iter), { v0 }, {v1_}, tp__g2, { });
 		g2->set_leaf();
-		guard_log.push_back(g2);
+		//guard_log.push_back(g2);
 
 		gs->synctask(tp__g2);
 		//gs->sync(tp__g2);
 
 		//Kernel(graph, iter);
 		//Docolor(graph, iter, &tt);
-		std::cout << "tt=" << tt<<std::endl;
+		//std::cout << "tt=" << tt<<std::endl;
 	}
 	gs->sync(tp0);
 	std::cout << "num of color: " << iter << std::endl;
@@ -126,7 +126,7 @@ void GraphcolorFluidX_E::Docolor(GraphGC *graph, int iter, int *tt, int *call_nu
     if (graph->ga[i] == iter) (*call_num)++;
   }
   //(*tt) += (*call_num);
-  std::cout << "Docolor wan le!\n";
+  //std::cout << "Docolor wan le!\n";
 }
 
 void GraphcolorFluidX_E::Kernel(GraphGC *graph, int iter, int *call_num)
@@ -152,4 +152,51 @@ void GraphcolorFluidX_E::Kernel(GraphGC *graph, int iter, int *call_num)
     }
   }
   //std::cout << "Kernel wan le!\n";
+}
+
+
+//////////////////////////////////////////multi-thread///////////////////////////////////////////////////////
+
+void Kernel_thread(GraphcolorFluidX_E_multi *gc, GraphGC *graph, int iter, int thread_num, int id) {
+  if(iter%2 != 100)
+  {
+    for(int i=id; i<graph->v_num; i+=thread_num) {
+      gc->huafen(graph, i, iter);
+    }
+  }
+  else
+  {
+    for(int i=graph->v_num-1-id; i>=0; i-=thread_num) {
+      gc->huafen(graph, i, iter);
+    }
+  }
+}
+
+void Kernel_thread1(GraphcolorFluidX_E_multi *gc, GraphGC *graph, int iter, int thread_num, int id, int *call_num) {
+  if(iter%2 != 100)
+  {
+    for(int i=id; i<graph->v_num; i+=thread_num) {
+      gc->huafen(graph, i, iter);
+      (*call_num)+=thread_num;
+    }
+  }
+  else
+  {
+    for(int i=graph->v_num-1-id; i>=0; i-=thread_num) {
+      gc->huafen(graph, i, iter);
+      (*call_num)+=thread_num;
+    }
+  }
+}
+
+void GraphcolorFluidX_E_multi::Kernel(GraphGC *graph, int iter, int *call_num)
+{
+  std::thread* threads = new std::thread[this->thread_num-1];
+  for (int id = 1; id < this->thread_num; id++) {
+    threads[id-1] = std::thread(Kernel_thread, this, graph, iter, this->thread_num, id);
+  }
+  Kernel_thread1(this, graph, iter, this->thread_num, 0, call_num);
+  for(int i = 1; i < this->thread_num; i++) {
+    threads[i-1].join();
+  }
 }

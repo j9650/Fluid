@@ -310,7 +310,8 @@ public:
 				bf -> bellman_ford(inputpath + inputfilename);
 	
 				double tt=wtdb.stop();
-				SyncLogger::print("Fluid CPUTimer: ", ctdb.stop(), " WallTimer: ", tt);
+				//SyncLogger::print("Fluid CPUTimer: ", ctdb.stop(), " WallTimer: ", tt);
+				printf("Fluid CPUTimer: %10f WallTimer: %10f\n", ctdb.stop(), tt);
 				//print_log("Bellmanford_log", bf->guard_log);
   				cc += tt;
 				{
@@ -325,7 +326,8 @@ public:
 				bf -> bellman_ford(inputpath + inputfilename);
 	
 				double tt=wtdb.stop();
-				SyncLogger::print("Fluid CPUTimer: ", ctdb.stop(), " WallTimer: ", tt);
+				//SyncLogger::print("Fluid CPUTimer: ", ctdb.stop(), " WallTimer: ", tt);
+				printf("Fluid CPUTimer: %10f WallTimer: %10f\n", ctdb.stop(), tt);
 				//print_log("Bellmanford_log", bf->guard_log);
   				cc += tt;
 				{
@@ -370,15 +372,26 @@ public:
 				gc->rate = rate;
 				gc->end_quality = end_quality;
 				gc -> graphcolor(inputpath + inputfilename);
+			} else if(this->cmd == "GC_multi") {
+				auto gc = new example::Graphcolor_multi(threads_num);
+				gc->rate = rate;
+				gc->end_quality = end_quality;
+				gc -> graphcolor(inputpath + inputfilename);
 			} else if(this->cmd == "GC_Fluid") {
 				auto gc = new example::GraphcolorFluidX_E();
+				gc->rate = rate;
+				gc->end_quality = end_quality;
+				gc -> graphcolor(inputpath + inputfilename);
+			} else if(this->cmd == "GC_multi_Fluid") {
+				auto gc = new example::GraphcolorFluidX_E_multi(threads_num);
 				gc->rate = rate;
 				gc->end_quality = end_quality;
 				gc -> graphcolor(inputpath + inputfilename);
 			}
 
 			double tt=wtdb.stop();
-			SyncLogger::print("Fluid CPUTimer: ", ctdb.stop(), " WallTimer: ", tt);
+			//SyncLogger::print("Fluid CPUTimer: ", ctdb.stop(), " WallTimer: ", tt);
+			printf("Fluid CPUTimer: %10f WallTimer: %10f\n", ctdb.stop(), tt);
 			//print_log("Graphcolor_log", gc->guard_log);
 		}
 		return;
@@ -500,7 +513,27 @@ public:
 	  			cn->test_result();
 	  			ss += cn->accuracy;
 	  			cc += tt;
-  			}
+  			} else if(this->cmd == "CNN_VGGNet") {
+				auto cn = new example::CNN_vggnet(224, 224, 3, batch_size);
+				cn->rate = rate;
+				std::cout << "succ created a class\n";
+				cn->cnn(inputpath, inputfilename);
+				double tt=wtdb.stop();
+				printf("Fluid CPUTimer: %10f WallTimer: %10f\n", ctdb.stop(), tt);
+	  			cn->test_result();
+	  			ss += cn->accuracy;
+	  			cc += tt;
+			} else if(this->cmd == "CNN_VGGNet_Fluid") {
+				auto cn = new example::CNN_vggnetFluid_E(224, 224, 3, batch_size, rate);
+				cn->rate = rate;
+				std::cout << "succ created a class\n";
+				cn->cnn(inputpath, inputfilename);
+				double tt=wtdb.stop();
+				printf("Fluid CPUTimer: %10f WallTimer: %10f\n", ctdb.stop(), tt);
+	  			cn->test_result();
+	  			ss += cn->accuracy;
+	  			cc += tt;
+			}
 		}
 		ss = ss/n;
 		cc = cc/n;
@@ -643,7 +676,9 @@ public:
                         //auto gc = new example::GraphcolorFluidX_E();
                         fft->rate = rate;
                         fft->n = f1;
-                        fft ->FftFluidX_E(f1);
+                        fft->thread_num = threads_num;
+                        //fft ->FftFluidX_E(f1);
+                        fft->Fft(f1, this->cmd);
                         double tt=wtdb.stop();
                         //SyncLogger::print("Fluid CPUTimer: ", ctdb.stop(), " WallTimer: ", tt);
 						printf("Fluid CPUTimer: %10f WallTimer: %10f\n", ctdb.stop(), tt);

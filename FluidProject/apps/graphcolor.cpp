@@ -122,7 +122,7 @@ void Graphcolor::Coloring(GraphGC *graph)
     iter++;
     Kernel(graph, iter);
     Docolor(graph, iter, &tt);
-    std::cout <<tt<<std::endl;
+    //std::cout <<tt<<std::endl;
   }
   std::cout << "num of color: " << iter << std::endl;
 }
@@ -167,7 +167,7 @@ void Graphcolor::Docolor(GraphGC *graph, int iter, int *tt)
       (*tt)--;
     }
   }
-  std::cout << "Docolor wan le!\n";
+  //std::cout << "Docolor wan le!\n";
 }
 
 void GraphcolorFluid::Kernel(GraphGC *graph, int iter, int *call_num)
@@ -191,20 +191,30 @@ void GraphcolorFluid::Kernel(GraphGC *graph, int iter, int *call_num)
 
 //////////////////////////////////////////multi-thread///////////////////////////////////////////////////////
 
-
-void Graphcolor_multi::Kernel(GraphGC *graph, int iter, int *call_num)
-{
+void Kernel_thread(Graphcolor_multi *gc, GraphGC *graph, int iter, int thread_num, int id) {
   if(iter%2 != 100)
   {
-    for(int i=0; i<graph->v_num; i++) {
-      huafen(graph, i, iter),
+    for(int i=id; i<graph->v_num; i+=thread_num) {
+      gc->huafen(graph, i, iter);
     }
   }
   else
   {
-    for(int i=graph->v_num-1; i>=0; i--) {
-      huafen(graph, i, iter),
+    for(int i=graph->v_num-1-id; i>=0; i-=thread_num) {
+      gc->huafen(graph, i, iter);
     }
+  }
+}
+
+void Graphcolor_multi::Kernel(GraphGC *graph, int iter)
+{
+  std::thread* threads = new std::thread[this->thread_num];
+  for (int id = 0; id < this->thread_num; id++) {
+    threads[id] = std::thread(Kernel_thread, this, graph, iter, this->thread_num, id);
+  }
+  //Kernel_thread(this, graph, iter, this->thread_num, 0);
+  for(int i = 0; i < this->thread_num; i++) {
+    threads[i].join();
   }
 }
 

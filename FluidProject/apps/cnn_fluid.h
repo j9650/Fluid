@@ -159,6 +159,23 @@ namespace example {
 
 	};
 
+	class CNN_vggnetFluid_E : public CNN_vggnet {
+	public:
+		std::vector<Guard*> guard_log;
+
+		virtual std::vector<int> inference();
+  		
+		CNN_vggnetFluid_E(int h_, int w_, int c_, int batch_size_, double rate_) : CNN_vggnet(h_, w_, c_, batch_size_)
+		{
+			rate = rate_;
+		}
+
+  		//fluid entity
+		ValveGT<int> v1;
+		double rate;
+
+	};
+
 	class CNN_squeezenetFluid_E : public CNN_squeezenet {
 	public:
 		std::vector<Guard*> guard_log;

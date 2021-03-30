@@ -114,6 +114,8 @@ namespace example {
 		double iou;
 		int batch_size;
 		int h,w,c;
+		bool relu;
+		bool pad;
 
 		std::string weight_file;
 		int num_images;
@@ -146,6 +148,9 @@ namespace example {
 		// dense_layer weights:
 		weights* dense_weights1;
 		weights* dense_weights2;
+		
+		std::vector<weights*> all_weights_list;
+		std::vector<std::string> all_weights_name;
 
 		void alexnet_flower(int h_, int w_);
 		void mnist(int h_, int w_, int c_, int batch_size_);
@@ -157,6 +162,7 @@ namespace example {
 		void load_image_mnist(std::string image_filename, double* pixels); // done
 
 		void load_image_lenet(std::string image_filename, double* pixels); // done
+		void load_image_imagenet(std::string image_filename, double* pixels); // done
 		//virtual void load_weights_lenet(std::string weight_filename); // done
 		//int inference(); // done
 		virtual std::vector<int> inference(); // done
@@ -239,6 +245,8 @@ namespace example {
 			input_height = h_;
 			input_width = w_;
 			input_channel = c_; 
+			relu = false;
+			pad = false;
 		}
 
 		// conv_layers:
@@ -249,6 +257,81 @@ namespace example {
 
 	};
 
+	class CNN_vggnet : public CNN {
+	public:
+		// feature maps:
+		feature_map* input;  // 28 28 1
+		feature_map* conv2d_0;  // 26 26 512 #weight1
+		feature_map* conv2d_1;  // 26 26 512 #weight1
+		feature_map* max_pooling2d_0;  // 13 13 512
+		feature_map* conv2d_2;  // 26 26 512 #weight1
+		feature_map* conv2d_3;  // 26 26 512 #weight1
+		feature_map* max_pooling2d_1;  // 13 13 512
+		feature_map* conv2d_4;  // 26 26 512 #weight1
+		feature_map* conv2d_5;  // 26 26 512 #weight1
+		feature_map* conv2d_6;  // 26 26 512 #weight1
+		feature_map* max_pooling2d_2;  // 13 13 512
+		feature_map* conv2d_7;  // 26 26 512 #weight1
+		feature_map* conv2d_8;  // 26 26 512 #weight1
+		feature_map* conv2d_9;  // 26 26 512 #weight1
+		feature_map* max_pooling2d_3;  // 13 13 512
+		feature_map* conv2d_10;  // 26 26 512 #weight1
+		feature_map* conv2d_11;  // 26 26 512 #weight1
+		feature_map* conv2d_12;  // 26 26 512 #weight1
+		feature_map* max_pooling2d_4;  // 13 13 512
+
+		feature_map* flatten_;  // 12800
+		feature_map* dense_1;  // 120 #weight3
+		feature_map* activation_1;  // 10
+		feature_map* dense_2;  // 84 #weight4
+		feature_map* activation_2;  // 10
+		feature_map* dense_3;  // 10 # weight5
+		feature_map* activation_3;  // 10
+
+		// conv_layer weights:
+		weights* conv_weights0;
+		weights* conv_weights1;
+		weights* conv_weights2;
+		weights* conv_weights3;
+		weights* conv_weights4;
+		weights* conv_weights5;
+		weights* conv_weights6;
+		weights* conv_weights7;
+		weights* conv_weights8;
+		weights* conv_weights9;
+		weights* conv_weights10;
+		weights* conv_weights11;
+		weights* conv_weights12;
+		// dense_layer weights:
+		weights* dense_weights1;
+		weights* dense_weights2;
+		weights* dense_weights3;
+
+
+		void vggnet(int h_, int w_, int c_, int batch_size_);
+
+		virtual void cnn(std::string input_path, std::string in); //done
+		void load_weights_vggnet(std::string weight_filename);
+		virtual std::vector<int> inference();
+
+
+		CNN_vggnet(int h_, int w_, int c_, int batch_size_) : CNN(h_, w_, c_, batch_size_)
+		{
+			batch_size = batch_size_;
+			input_height = h_;
+			input_width = w_;
+			input_channel = c_; 
+			relu = true;
+			pad = true;
+		}
+
+		// conv_layers:
+		conv_layer *conv2d_layer1;
+		conv_layer *conv2d_layer2;
+		conv_layer *conv2d_layer3;
+		conv_layer *conv2d_layer4;
+
+	};
 
 	class CNN_squeezenet : public CNN {
 	public:
@@ -303,6 +386,8 @@ namespace example {
 			input_height = h_;
 			input_width = w_;
 			input_channel = c_;    
+			relu = false;
+			pad = false;
 		}
 
 		// conv_layers:
